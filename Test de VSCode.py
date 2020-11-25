@@ -10,6 +10,3 @@ def crea(liste):
             liste.append(0)
     return liste
 
-yo=crea(salut)
-print(yo)
-
