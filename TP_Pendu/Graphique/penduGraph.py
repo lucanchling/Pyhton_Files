@@ -3,8 +3,9 @@
 # Luc Anchling
 # github : https://github.com/lucanchling/Pyhton_Files
 # 10 Décembre 2020
-# To Do : 
+# To Do : Correction de plusieurs bugs (actualisation du mot, gestion du nombre d'essai avec affichage de la photo correspondante, gestion du score... beaucoup de travail)
 
+## Cette version n'est pas encore fonctionnelle
 
 # Importation des modules :
 import time as time
@@ -12,55 +13,57 @@ import fonction as m
 from os import path
 from tkinter import Tk, Button, Label, Entry, Canvas, PhotoImage
 
-# Lancement du jeu avec affichage et prise en compte des réponses
-def jeu(réponse):
+
+# Lancement du jeu avec affichage et prise en compte des reponses
+def jeu(reponse,prop):
+    global proposition
+    prop=prop.upper()
+    entr1.delete(0,len(prop))
     if path.exists('score.txt') == False :  # Test de l'existence du fichier 'score.txt'
         m.initDoc()
-    mot,proposition,c,prop = m.initMot(réponse),[],0,''
-    print("Le record actuel est de :",m.record(),"pts")
-    print("Le mot à trouver est le suivant :")
-    m.affichageMot(mot)  # Premier affichage
-    tic = time.time()  # début du chrono
-    while (prop != réponse) and (c < 8):  
-        prop = input(str("Proposition de lettre ou de mot : ")).upper()  # Mise en majucule
-        if prop in proposition:
-            print("Vous l'avez déjà proposé !")
-        proposition.append(prop)   # ajout des proposition dans une liste
-        m.affichageMot(m.chgmMot(mot,prop,réponse))  # affichage du mot actualisé
-        print("Vous avez déjà proposé : ")
-        for i in proposition:
-            print(i,end=", ")
-        print('\n')
-        print("Il vous reste",8-(c+1),"chances !")
-        c+=1
-    tac = time.time()  # fin du chrono
-    tps = round(tac - tic,2)  # calcul de la durée
-    if c==8:
-        partie = False
-        print("C'est perdu, le mot était :",réponse)
-    else :
-        partie = True
-        print("C'est gagné, vous avez mis",c,"essais !")
-    print(m.score(partie,tps,c))
-    rejouer = input(str("Voulez-Vous rejouez ? (O/N) ")).upper()
-    if rejouer == "O":
-        jeu(m.choixMot())
+    mot = m.initMot(reponse)
+    chgmMot = m.chgmMot(mot,prop,reponse)
+    proposition.append(prop)   # ajout des proposition dans une liste
+    labelMot['text'] = 'Mot à trouver : ' + ' '.join(m.chgmMot(mot,prop,reponse))
+    labelEssai['text'] = " Nombre d'Essai(s) restant :" + str(8-len(proposition))
+    photo['file'] = m.penduImg(8-len(proposition))
 
-
+proposition=[]
+reponse = m.choix()
+mot = m.initMot(reponse)
 
 # Partie Graphique
 
+# Fenêtre
 fen = Tk()
 fen.title("Jeu Du Pendu")
+
+# Canvas avec le .gif
 Canevas = Canvas(fen, width = 300, height = 300)
-image = PhotoImage(file = "bonhomme1.gif")
-Canevas.pack(side = "right")
-labelMot = Label(fen, text = "Mot : ")
+photo = PhotoImage(file = 'bonhomme8.gif')
+item = Canevas.create_image(150,150,image = photo)
+Canevas.pack()
+
+# Affichage de l'entrée et du mot à chercher
+entr1 = Entry(fen)
+labelMot = Label(fen, text = "Mot à Trouver : " + ' '.join(m.chgmMot(mot,entr1.get(),reponse)))
 labelMot.pack()
-buttonProp = Button(fen, text="Proposition")
-buttonQuitt = Button(fen, text="QUITTER", command = fen.destroy)
+
+# Bouton permettant la soummision d'une réponse
+buttonProp = Button(fen, text="Proposition",command = lambda: jeu(reponse,entr1.get()))
+
+entr1.pack()
 buttonProp.pack()
+# Affiche le nombre d'essai restant 
+labelEssai = Label(fen, text = " Nombre d'Essai(s) restant :"+str(8))
+labelEssai.pack()
+
+# Bonton permettant de sortir de la fenêtre
+buttonQuitt = Button(fen, text="QUITTER", command = fen.destroy)
 buttonQuitt.pack()
 
 
 fen.mainloop()
+
+# cd .\TP_Pendu\Graphique\
+

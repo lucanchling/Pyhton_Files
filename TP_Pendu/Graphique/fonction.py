@@ -7,6 +7,8 @@
 
 # Importation des modules :
 from random import randint
+from os import path
+from time import time
 
 # Trie la liste des mots pour le pendu
 def tri():
@@ -33,32 +35,21 @@ def choix():
     return liste2[randint(0,len(liste2))]
 
 
-# Affichage du mot avec des espaces entre les lettres
-def affichageMot(mot):
-    for i in mot:
-        print(i,end=' ')   # affichage en ligne des éléments de la liste
-    print('\n')
-
-# Tri + Choix du mot
-def choixMot():
-    tri()
-    return choix()
-
 # Initialisation du mot à afficher !
-def initMot(réponse):
-    mot = réponse
+def initMot(reponse):
+    mot = reponse
     mot1 = [mot[0]]   # affectation de la premiere lettre à la nouvelle liste
     for i in range(1,len(mot)):  # remplacement des autres lettre par des underscores
         mot1.append('_')
     return mot1
 
 # Fonction changeant le mot suivant la proposition faite par l'utilisateur
-def chgmMot(mot,prop,réponse):
-    if prop in réponse:   # test d'appartenance de la proposition dans la réponse
+def chgmMot(mot,prop,reponse):
+    if prop in reponse:   # test d'appartenance de la proposition dans la reponse
         indices = []
-        for indice,valeur in enumerate(réponse): # recherche des indices correspondant à la position de la proposition dans la réponse
+        for indice,valeur in enumerate(reponse): # recherche des indices correspondant à la position de la proposition dans la reponse
             if prop == valeur:  # test
-                indices.append(indice) # ajout des indices correspondant aux emplacements dans la réponse
+                indices.append(indice) # ajout des indices correspondant aux emplacements dans la reponse
         for i in indices:
             mot[i] = prop  # Remplacement des '_' par la proposition
         return mot
@@ -89,6 +80,10 @@ def record():
     doc.close()
     return max(lscore).strip()
 
+# Fonctions pour la partie graphique :
+
+# Retournant l'image correspondant au nombre d'Essais effectués
 def penduImg(nbEssai):
     return ('bonhomme'+str(nbEssai)+'.gif')
+
 
