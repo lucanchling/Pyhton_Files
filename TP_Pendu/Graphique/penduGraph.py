@@ -1,7 +1,7 @@
 # Header
 # Pendu version Graphique
 # Luc Anchling
-# github : https://github.com/lucanchling/Pyhton_Files
+# github : https://github.com/lucanchling/Pyhton_Files/tree/main/TP_Pendu
 # 10 Décembre 2020
 # To Do : Correction de plusieurs bugs (actualisation du mot, gestion du nombre d'essai avec affichage de la photo correspondante, gestion du score... beaucoup de travail)
 

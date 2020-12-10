@@ -1,7 +1,7 @@
 # Header
 # Pendu version Console
 # Luc Anchling
-# github : https://github.com/lucanchling/Pyhton_Files
+# github : https://github.com/lucanchling/Pyhton_Files/tree/main/TP_Pendu
 # 3 Décembre 2020
 # To Do : 
 
