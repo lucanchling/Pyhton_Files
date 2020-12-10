@@ -88,3 +88,7 @@ def record():
     lscore = doc.readlines()
     doc.close()
     return max(lscore).strip()
+
+def penduImg(nbEssai):
+    return ('bonhomme'+str(nbEssai)+'.gif')
+

@@ -10,7 +10,7 @@
 import time as time
 import fonction as m
 from os import path
-from tkinter import Tk, Button, Label, Entry
+from tkinter import Tk, Button, Label, Entry, Canvas, PhotoImage
 
 # Lancement du jeu avec affichage et prise en compte des réponses
 def jeu(réponse):
@@ -49,6 +49,18 @@ def jeu(réponse):
 
 
 # Partie Graphique
+
 fen = Tk()
-labelMot = Label(fen, text = "Salut")
+fen.title("Jeu Du Pendu")
+Canevas = Canvas(fen, width = 300, height = 300)
+image = PhotoImage(file = "bonhomme1.gif")
+Canevas.pack(side = "right")
+labelMot = Label(fen, text = "Mot : ")
 labelMot.pack()
+buttonProp = Button(fen, text="Proposition")
+buttonQuitt = Button(fen, text="QUITTER", command = fen.destroy)
+buttonProp.pack()
+buttonQuitt.pack()
+
+
+fen.mainloop()
