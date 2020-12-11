@@ -3,7 +3,7 @@
 # Luc Anchling
 # github : https://github.com/lucanchling/Pyhton_Files/tree/main/TP_Pendu
 # 10 Décembre 2020
-# To Do : Correction de plusieurs bugs (actualisation du mot, gestion du nombre d'essai avec affichage de la photo correspondante, gestion du score... beaucoup de travail)
+# To Do : Correction de plusieurs bugs (gestion du score, gestion des fins de parties... beaucoup de travail)
 
 ## Cette version n'est pas encore fonctionnelle
 
@@ -11,27 +11,40 @@
 import time as time
 import fonction as m
 from os import path
-from tkinter import Tk, Button, Label, Entry, Canvas, PhotoImage
+from tkinter import Tk, Button, Label, Entry, Canvas, PhotoImage, StringVar, messagebox
+
+def fini():
+    mafen = Tk()
+    mafen.focus_set()
+    mafen.title('Fin de Partie')
+    labelScore = Label(mafen,text="Votre score est de : ")
+    labelScore.pack()
+    mafen.mainloop()
 
 
 # Lancement du jeu avec affichage et prise en compte des reponses
 def jeu(reponse,prop):
     global proposition
+    global mot
     prop=prop.upper()
     entr1.delete(0,len(prop))
     if path.exists('score.txt') == False :  # Test de l'existence du fichier 'score.txt'
         m.initDoc()
-    mot = m.initMot(reponse)
     chgmMot = m.chgmMot(mot,prop,reponse)
-    proposition.append(prop)   # ajout des proposition dans une liste
+    if prop not in reponse or prop not in proposition and prop!="":
+        proposition.append(prop)  # ajout des proposition dans une liste
+    mot=chgmMot
     labelMot['text'] = 'Mot à trouver : ' + ' '.join(m.chgmMot(mot,prop,reponse))
     labelEssai['text'] = " Nombre d'Essai(s) restant :" + str(8-len(proposition))
+    labelProp['text'] = "Vous avez déjà proposé : "+', '.join(proposition)
     photo['file'] = m.penduImg(8-len(proposition))
+    if len(proposition) == 7 or prop == reponse:
+        close()
 
 proposition=[]
 reponse = m.choix()
 mot = m.initMot(reponse)
-
+global fen
 # Partie Graphique
 
 # Fenêtre
@@ -57,7 +70,8 @@ buttonProp.pack()
 # Affiche le nombre d'essai restant 
 labelEssai = Label(fen, text = " Nombre d'Essai(s) restant :"+str(8))
 labelEssai.pack()
-
+labelProp = Label(fen)
+labelProp.pack()
 # Bonton permettant de sortir de la fenêtre
 buttonQuitt = Button(fen, text="QUITTER", command = fen.destroy)
 buttonQuitt.pack()
@@ -66,4 +80,3 @@ buttonQuitt.pack()
 fen.mainloop()
 
 # cd .\TP_Pendu\Graphique\
-
